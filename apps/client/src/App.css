@@ -1,0 +1,100 @@
+html,
+body,
+#root {
+  margin: 0;
+  padding: 0;
+  font-family: Arial, Helvetica, sans-serif;
+  overflow-x: hidden;
+}
+
+.header-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  padding: 20px;
+  background-color: #000000;
+  color: white;
+}
+
+.logo {
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.layout-container {
+  display: flex;
+  flex-direction: row;
+  position: fixed;
+  overflow-x: hidden;
+}
+
+.outlet-container {
+  flex: 1;
+  overflow-y: hidden;
+}
+
+/* sidebar */
+
+.sidebar-container {
+  width: 200px;
+  height: 100vw;
+  background-color: #727272;
+  padding-top: 30px;
+}
+
+.sidebar-link {
+  text-decoration: none;
+  color: white;
+  display: block;
+  padding: 30px;
+}
+
+/* setup route */
+
+.setup-container {
+  display: flex;
+  flex-direction: column;
+}
+
+nav {
+  margin-top: 60px;
+  margin-left: 45px;
+  border-bottom: 2px solid rgb(203, 198, 198);
+  width: 75vw;
+  padding-bottom: 10px;
+  padding-left: 20px;
+}
+.setup-link {
+  text-decoration: none;
+  padding: 10px;
+}
+
+.setup-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  margin-left: 60px;
+}
+
+/* setup */
+
+.role-container {
+  margin-top: 30px;
+}
+
+.role-button {
+  background-color: black;
+  color: white;
+  padding: 10px;
+  border-radius: 5px;
+  border: 2px solid black;
+  transition: all 150ms ease-in-out;
+}
+
+.role-button:hover {
+  background-color: white;
+  color: black;
+  cursor: pointer;
+  border: 2px solid black;
+}
