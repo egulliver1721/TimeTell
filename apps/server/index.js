@@ -89,34 +89,35 @@ app.get("/api/sessions", async (req, res) => {
 // CREATE TEACHER API REQUESTS
 // POST request to create a new TEACHER
 app.post("/api/teachers", async (req, res) => {
-  const { teacherFirstName, teacherLastName, FTE, roleId, roleCode, roleType } =
-    req.body;
+  const {
+    teacherFirstName,
+    teacherLastName,
+    FTE,
+    roleId,
+    yearId,
+    classroomId,
+  } = req.body;
   const teacher = await prisma.teacher.create({
     data: {
       teacherFirstName,
       teacherLastName,
       FTE,
       roleId,
+      yearId,
+      classroomId,
     },
   });
   res.json(teacher);
 });
 
 // GET request to fetch all TEACHERS
-// app.get("/api/teachers", async (req, res) => {
-//   const teacher = await prisma.teacher.findMany();
-//   res.json(teacher);
-// });
 
-// GET request to fetch all TEACHERS with their roles
 app.get("/api/teachers", async (req, res) => {
   const teachers = await prisma.teacher.findMany({
     include: {
-      role: {
-        select: {
-          roleCode: true,
-        },
-      },
+      role: true,
+      year: true,
+      class: true,
     },
   });
   res.json(teachers);

@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import ClassDataDisplay from "./ClassDataDisplay";
 
-interface ClassroomData {
+export interface ClassroomData {
   id: string;
   className: string;
 }

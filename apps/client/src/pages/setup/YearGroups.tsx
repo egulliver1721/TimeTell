@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import YearGroupDataDisplay from "./YearGroupDataDisplay";
 
-interface YearGroupData {
+export interface YearGroupData {
   id: string;
   yearGroup: string;
 }

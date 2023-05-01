@@ -22,11 +22,13 @@ model Role {
 model Year {
   id        String @id @default(uuid())
   yearGroup String
+  teachers Teacher[]
 }
 
 model Class {
   id        String @id @default(uuid())
   className String
+  teachers Teacher[]
 }
 
 model Session {
@@ -40,5 +42,9 @@ model Teacher {
   teacherLastName  String
   FTE              String
   role             Role?    @relation(fields: [roleId], references: [id])
+  year             Year?    @relation(fields: [yearId], references: [id])
+  class            Class?   @relation(fields: [classroomId], references: [id])
   roleId           String?
+  yearId           String?
+  classroomId          String?
 }
