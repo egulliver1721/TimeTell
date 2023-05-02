@@ -4,7 +4,9 @@ import Layout from "./components/Layout";
 import Dashboard from "./pages/Dashboard";
 import Teachers from "./pages/Teachers";
 import Provision from "./pages/Provision";
+import AllocationLayout from "./components/AllocationLayout";
 import Allocation from "./pages/Allocation";
+import Distribution from "./pages/Distribution";
 import Scheduling from "./pages/Scheduling";
 import Print from "./pages/Print";
 import SetupLayout from "./components/SetupLayout";
@@ -28,7 +30,10 @@ function App() {
 
           <Route path="teachers" element={<Teachers />} />
           <Route path="provision" element={<Provision />} />
-          <Route path="allocation" element={<Allocation />} />
+          <Route path="allocation" element={<AllocationLayout />}>
+            <Route index element={<Allocation />} />
+            <Route path="distribution" element={<Distribution />} />
+          </Route>
           <Route path="scheduling" element={<Scheduling />} />
           <Route path="print" element={<Print />} />
         </Route>
