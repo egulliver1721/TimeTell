@@ -96,6 +96,7 @@ app.post("/api/teachers", async (req, res) => {
     roleId,
     yearId,
     classroomId,
+    days,
   } = req.body;
   const teacher = await prisma.teacher.create({
     data: {
@@ -105,6 +106,7 @@ app.post("/api/teachers", async (req, res) => {
       roleId,
       yearId,
       classroomId,
+      days,
     },
   });
   res.json(teacher);

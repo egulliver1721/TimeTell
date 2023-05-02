@@ -2,7 +2,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import "./App.css";
 import Layout from "./components/Layout";
 import Dashboard from "./pages/Dashboard";
-import Teachers from "./pages/Teachers";
+import Teachers from "./pages/teachers/Teachers";
 import Provision from "./pages/Provision";
 import AllocationLayout from "./components/AllocationLayout";
 import Allocation from "./pages/Allocation";
@@ -29,7 +29,7 @@ function App() {
           </Route>
 
           <Route path="teachers" element={<Teachers />} />
-          <Route path="provision" element={<Provision />} />
+          {/* <Route path="provision" element={<Provision />} /> */}
           <Route path="allocation" element={<AllocationLayout />}>
             <Route index element={<Allocation />} />
             <Route path="distribution" element={<Distribution />} />

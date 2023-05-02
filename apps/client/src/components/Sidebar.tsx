@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 const Sidebar = () => {
   return (
     <div className="sidebar-container">
-      <Link className="sidebar-link" to="dashboard">
+      <Link className="sidebar-link" to=".">
         Dashboard
       </Link>
       <Link className="sidebar-link" to="setup">
@@ -12,9 +12,9 @@ const Sidebar = () => {
       <Link className="sidebar-link" to="teachers">
         Teachers
       </Link>
-      <Link className="sidebar-link" to="provision">
+      {/* <Link className="sidebar-link" to="provision">
         Provision
-      </Link>
+      </Link> */}
       <Link className="sidebar-link" to="allocation">
         Allocation
       </Link>

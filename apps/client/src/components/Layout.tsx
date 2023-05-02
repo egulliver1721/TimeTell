@@ -5,7 +5,7 @@ import Sidebar from "./Sidebar";
 const Layout = () => {
   return (
     <div>
-      <Header />
+      {/* <Header /> */}
       <div className="layout-container">
         <div className="outlet-container">
           <Sidebar />

@@ -46,5 +46,12 @@ model Teacher {
   class            Class?   @relation(fields: [classroomId], references: [id])
   roleId           String?
   yearId           String?
-  classroomId          String?
+  classroomId      String?
+  Monday           Boolean
+  Tuesday          Boolean
+  Wednesday         Boolean
+  Thursday          Boolean
+  Friday          Boolean
 }
+
+

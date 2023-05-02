@@ -5,6 +5,7 @@ body,
   padding: 0;
   font-family: Arial, Helvetica, sans-serif;
   overflow-x: hidden;
+  background-color: white;
 }
 
 .header-container {
@@ -38,14 +39,17 @@ body,
 
 .sidebar-container {
   width: 200px;
-  height: 100vw;
-  background-color: #727272;
+  height: 52vw;
+  background-color: #eae6e6;
+  color: grey;
+  margin: 25px;
   padding-top: 30px;
+  border-radius: 10px;
 }
 
 .sidebar-link {
   text-decoration: none;
-  color: white;
+  color: grey;
   display: block;
   padding: 30px;
 }
@@ -79,6 +83,10 @@ nav {
 
 /* setup */
 
+.section-heading {
+  margin-top: 50px;
+}
+
 .role-container {
   margin-top: 30px;
 }
@@ -97,4 +105,24 @@ nav {
   color: black;
   cursor: pointer;
   border: 2px solid black;
+}
+
+/* teach data table */
+
+.table-container {
+  height: 45vw;
+  overflow-y: auto;
+}
+
+.teacher-data-table th {
+  padding: 30px;
+  border-collapse: collapse;
+}
+
+.teacher-data-table td {
+  padding: 30px;
+}
+
+.teacher-data-table tbody tr {
+  background-color: #f2f2f2;
 }
