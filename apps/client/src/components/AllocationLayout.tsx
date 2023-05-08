@@ -1,5 +1,5 @@
 import { NavLink, Outlet } from "react-router-dom";
-import AllocationCommonData from "../pages/AllocationCommonData";
+import AllocationCommonData from "../pages/allocation/AllocationCommonData";
 
 const AllocationLayout = () => {
   const activeStyle: React.CSSProperties = {

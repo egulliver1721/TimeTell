@@ -7,20 +7,22 @@ interface Props {
   sessionType: SessionType[];
 }
 
-const SessionTypesDataDisplay = ({ sessionType }: Props) => {
+const SessionTypesDataDisplay = (props) => {
   return (
     <div>
       <h2>Session Type Table</h2>
       <table>
         <thead>
           <tr>
-            <th>Sessions</th>
+            <th>Session Type</th>
+            <th>Session Length</th>
           </tr>
         </thead>
         <tbody>
-          {sessionType.map((data: SessionType) => (
-            <tr key={data.id}>
-              <td>{data.sessionType}</td>
+          {props.sessions.map((session) => (
+            <tr key={session.id}>
+              <td>{session.sessionType}</td>
+              <td>{session.sessionLength}</td>
             </tr>
           ))}
         </tbody>

@@ -11,7 +11,6 @@ datasource db {
   relationMode = "prisma"
 }
 
-
 model Role {
   id       String    @id @default(uuid())
   roleType String
@@ -20,38 +19,53 @@ model Role {
 }
 
 model Year {
-  id        String @id @default(uuid())
+  id        String    @id @default(uuid())
   yearGroup String
-  teachers Teacher[]
+  teachers  Teacher[]
 }
 
 model Class {
-  id        String @id @default(uuid())
+  id        String    @id @default(uuid())
   className String
-  teachers Teacher[]
+  teachers  Teacher[]
 }
 
 model Session {
-  id          String @id @default(uuid())
-  sessionType String
+  id             String           @id @default(uuid())
+  sessionType    String
+  sessionLength  String
+  teachers       Teacher[]        @relation("TeacherSession")
+  TeacherSession TeacherSession[]
 }
 
 model Teacher {
-  id               String   @id @default(uuid())
-  teacherFirstName String
-  teacherLastName  String
+  id               String           @id @default(uuid())
+  firstName        String
+  lastName         String
   FTE              String
-  role             Role?    @relation(fields: [roleId], references: [id])
-  year             Year?    @relation(fields: [yearId], references: [id])
-  class            Class?   @relation(fields: [classroomId], references: [id])
+  role             Role?            @relation(fields: [roleId], references: [id])
+  year             Year?            @relation(fields: [yearId], references: [id])
+  class            Class?           @relation(fields: [classroomId], references: [id])
   roleId           String?
   yearId           String?
   classroomId      String?
-  Monday           Boolean
-  Tuesday          Boolean
-  Wednesday         Boolean
-  Thursday          Boolean
-  Friday          Boolean
+  monday           Boolean?
+  tuesday          Boolean?
+  wednesday        Boolean?
+  thursday         Boolean?
+  friday           Boolean?
+  mandatedTime     String?
+  additionalTime   String?
+  session          Session[]        @relation("TeacherSession")
+  TeacherSession   TeacherSession[]
 }
 
+model TeacherSession {
+  id          String  @id @default(uuid())
+  teacher     Teacher @relation(fields: [teacherId], references: [id])
+  session     Session @relation(fields: [sessionId], references: [id])
+  numSessions Int     @default(0)
 
+  teacherId String
+  sessionId String
+}

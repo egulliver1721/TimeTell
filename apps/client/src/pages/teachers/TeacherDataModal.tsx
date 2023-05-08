@@ -12,15 +12,15 @@ const TeacherDataModal = (props) => {
               <input
                 type="text"
                 placeholder="First Name"
-                name="teacherFirstName"
-                value={props.formData.teacherFirstName}
+                name="firstName"
+                value={props.formData.firstName}
                 onChange={props.handleInputChange}
               />
               <input
                 type="text"
                 placeholder="Last Name"
-                name="teacherLastName"
-                value={props.formData.teacherLastName}
+                name="lastName"
+                value={props.formData.lastName}
                 onChange={props.handleInputChange}
               />
               <input
@@ -28,6 +28,13 @@ const TeacherDataModal = (props) => {
                 placeholder="FTE"
                 name="FTE"
                 value={props.formData.FTE ?? ""}
+                onChange={props.handleInputChange}
+              />
+              <input
+                type="text"
+                placeholder="Mandated Time"
+                name="mandatedTime"
+                value={props.formData.mandatedTime ?? ""}
                 onChange={props.handleInputChange}
               />
               {/* select drop down for ROLE */}
@@ -74,7 +81,7 @@ const TeacherDataModal = (props) => {
                 <input
                   type="checkbox"
                   name="monday"
-                  checked={props.days.monday}
+                  checked={props.formData.monday || false}
                   onChange={props.handleCheckboxChange}
                 />
               </label>
@@ -83,7 +90,7 @@ const TeacherDataModal = (props) => {
                 <input
                   type="checkbox"
                   name="tuesday"
-                  checked={props.days.tuesday}
+                  checked={props.formData.tuesday || false}
                   onChange={props.handleCheckboxChange}
                 />
               </label>
@@ -92,7 +99,7 @@ const TeacherDataModal = (props) => {
                 <input
                   type="checkbox"
                   name="wednesday"
-                  checked={props.days.wednesday}
+                  checked={props.formData.wednesday || false}
                   onChange={props.handleCheckboxChange}
                 />
               </label>
@@ -101,7 +108,7 @@ const TeacherDataModal = (props) => {
                 <input
                   type="checkbox"
                   name="thursday"
-                  checked={props.days.thursday}
+                  checked={props.formData.thursday || false}
                   onChange={props.handleCheckboxChange}
                 />
               </label>
@@ -110,7 +117,7 @@ const TeacherDataModal = (props) => {
                 <input
                   type="checkbox"
                   name="friday"
-                  checked={props.days.friday}
+                  checked={props.formData.friday || false}
                   onChange={props.handleCheckboxChange}
                 />
               </label>

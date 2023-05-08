@@ -9,22 +9,21 @@ import TeacherTableComponent from "./TeacherTableComponent";
 
 const Teachers = () => {
   const [showModal, setShowModal] = useState(false);
-  const [days, setDays] = useState({
-    monday: false,
-    tuesday: false,
-    wednesday: false,
-    thursday: false,
-    friday: false,
-  });
+
   const [formData, setFormData] = useState<FormData>({
     id: "",
-    teacherFirstName: "",
-    teacherLastName: "",
+    firstName: "",
+    lastName: "",
     FTE: "",
+    mandatedTime: "",
     roleId: "",
     yearId: "",
     classroomId: "",
-    days: { ...days },
+    monday: null,
+    tuesday: null,
+    wednesday: null,
+    thursday: null,
+    friday: null,
   });
 
   const [roles, setRoles] = useState<Role[]>([]);
@@ -33,15 +32,21 @@ const Teachers = () => {
   const [teachers, setTeachers] = useState<TeacherData[]>([
     {
       id: "",
-      teacherFirstName: "",
-      teacherLastName: "",
+      firstName: "",
+      lastName: "",
       FTE: "",
+      mandatedTime: "",
       roleId: "",
       role: { roleCode: "" },
       yearId: "",
       year: { yearGroup: "" },
       classroomId: "",
       class: { className: "" },
+      monday: false,
+      tuesday: false,
+      wednesday: false,
+      thursday: false,
+      friday: false,
     },
   ]);
 
@@ -82,23 +87,6 @@ const Teachers = () => {
       }
     })();
   }, []);
-
-  const handleCreateTeacher = async (
-    event: React.FormEvent<HTMLFormElement>
-  ) => {
-    event.preventDefault();
-
-    try {
-      const response = await axios.post(
-        "http://localhost:8000/api/teachers",
-        formData
-      );
-      setShowModal(false);
-      console.log(response);
-    } catch (error) {
-      console.log(error);
-    }
-  };
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     console.log(formData);
@@ -147,21 +135,32 @@ const Teachers = () => {
     });
   };
 
-  // save to formData next
+  // save workdays checkbox to formData
   const handleCheckboxChange = (event) => {
     const { name, checked } = event.target;
-    setDays((prevState) => ({
-      ...prevState,
+    setFormData({
+      ...formData,
       [name]: checked,
-    }));
-    setFormData((prevState) => ({
-      ...prevState,
-      days: {
-        ...prevState.days,
-        [name]: checked,
-      },
-    }));
+    });
     console.log(formData);
+  };
+
+  // post teacher data
+  const handleCreateTeacher = async (
+    event: React.FormEvent<HTMLFormElement>
+  ) => {
+    event.preventDefault();
+
+    try {
+      const response = await axios.post(
+        "http://localhost:8000/api/teachers",
+        formData
+      );
+      setShowModal(false);
+      console.log(response);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   // get teacher data to display
@@ -175,7 +174,7 @@ const Teachers = () => {
         console.log(error);
       }
     })();
-  }, [showModal]);
+  }, [formData]);
 
   return (
     <div className="role-container">
@@ -195,11 +194,10 @@ const Teachers = () => {
         roles={roles}
         years={years}
         classrooms={classrooms}
-        days={days}
       />
       <div>
         <h2>Teacher Data</h2>
-        <TeacherTableComponent teachers={teachers} />
+        <TeacherTableComponent teachers={teachers} formData={formData} />
       </div>
     </div>
   );

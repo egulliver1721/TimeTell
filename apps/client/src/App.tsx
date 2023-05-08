@@ -5,7 +5,7 @@ import Dashboard from "./pages/Dashboard";
 import Teachers from "./pages/teachers/Teachers";
 import Provision from "./pages/Provision";
 import AllocationLayout from "./components/AllocationLayout";
-import Allocation from "./pages/Allocation";
+import Allocation from "./pages/allocation/Allocation";
 import Distribution from "./pages/Distribution";
 import Scheduling from "./pages/Scheduling";
 import Print from "./pages/Print";

@@ -5,12 +5,14 @@ import SessionTypesDataDisplay from "./SessionTypesDataDisplay";
 interface SessionTypeData {
   id: string;
   sessionType: string;
+  sessionLength: string;
 }
 
 const SessionTypes = () => {
   const [showModal, setShowModal] = useState(false);
   const [formData, setFormData] = useState({
     sessionType: "",
+    sessionLength: "",
   });
   const [sessionData, setSessionData] = useState<SessionTypeData[]>([]);
 
@@ -70,12 +72,19 @@ const SessionTypes = () => {
                 value={formData.sessionType}
                 onChange={handleInputChange}
               />
+              <input
+                type="text"
+                placeholder="Session length in minutes"
+                name="sessionLength"
+                value={formData.sessionLength}
+                onChange={handleInputChange}
+              />
               <button type="submit">Submit</button>
             </form>
           </div>
         </div>
       )}
-      <SessionTypesDataDisplay sessionType={sessionData} />
+      <SessionTypesDataDisplay sessions={sessionData} />
     </div>
   );
 };

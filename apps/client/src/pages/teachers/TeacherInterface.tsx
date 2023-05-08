@@ -1,8 +1,9 @@
 export interface TeacherData {
   id: string;
-  teacherFirstName: string;
-  teacherLastName: string;
+  firstName: string;
+  lastName: string;
   FTE: string | null;
+  mandatedTime: string | null;
   roleId: string | null;
   role: {
     roleCode: string | null;
@@ -15,21 +16,25 @@ export interface TeacherData {
   class: {
     className: string | null;
   } | null;
+  monday: boolean | null;
+  tuesday: boolean | null;
+  wednesday: boolean | null;
+  thursday: boolean | null;
+  friday: boolean | null;
 }
 
 export interface FormData {
   id: string;
-  teacherFirstName: string;
-  teacherLastName: string;
+  firstName: string;
+  lastName: string;
   FTE: string | null;
+  mandatedTime: string | null;
   roleId: string | null;
   yearId: string | null;
   classroomId: string | null;
-  days: {
-    monday: boolean;
-    tuesday: boolean;
-    wednesday: boolean;
-    thursday: boolean;
-    friday: boolean;
-  };
+  monday: boolean | null;
+  tuesday: boolean | null;
+  wednesday: boolean | null;
+  thursday: boolean | null;
+  friday: boolean | null;
 }

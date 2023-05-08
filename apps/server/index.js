@@ -71,10 +71,11 @@ app.get("/api/classes", async (req, res) => {
 // CREATE SESSIONS API REQUESTS
 // POST request to create a new SESSION
 app.post("/api/sessions", async (req, res) => {
-  const { sessionType } = req.body;
+  const { sessionType, sessionLength } = req.body;
   const session = await prisma.session.create({
     data: {
       sessionType,
+      sessionLength,
     },
   });
   res.json(session);
@@ -90,23 +91,33 @@ app.get("/api/sessions", async (req, res) => {
 // POST request to create a new TEACHER
 app.post("/api/teachers", async (req, res) => {
   const {
-    teacherFirstName,
-    teacherLastName,
+    firstName,
+    lastName,
     FTE,
+    mandatedTime,
     roleId,
     yearId,
     classroomId,
-    days,
+    monday,
+    tuesday,
+    wednesday,
+    thursday,
+    friday,
   } = req.body;
   const teacher = await prisma.teacher.create({
     data: {
-      teacherFirstName,
-      teacherLastName,
+      firstName,
+      lastName,
       FTE,
+      mandatedTime,
       roleId,
       yearId,
       classroomId,
-      days,
+      monday,
+      tuesday,
+      wednesday,
+      thursday,
+      friday,
     },
   });
   res.json(teacher);
@@ -123,6 +134,79 @@ app.get("/api/teachers", async (req, res) => {
     },
   });
   res.json(teachers);
+});
+
+// PUT request to update Teachers
+
+app.put("/api/teachers/:id", async (req, res) => {
+  const { id } = req.params;
+  const { additionalTime } = req.body;
+  try {
+    const teacher = await prisma.teacher.update({
+      where: { id },
+      data: {
+        additionalTime,
+      },
+    });
+    res.json(teacher);
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("Error updating teacher");
+  }
+});
+
+// PUT request to update Sessions via Allocation.tsx
+// /api/teachers/${teacherId}/sessions/${sessionId}
+
+app.put("/api/teachers/:id/sessions/:sessionId", async (req, res) => {
+  const { id, sessionId } = req.params;
+  const { numSessions } = req.body;
+  console.log(id, sessionId);
+  try {
+    const teacherSessions = await prisma.TeacherSessions.create({
+      where: { id, sessionId },
+      data: {
+        numSessions,
+      },
+    });
+    res.json(teacherSessions);
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("Error updating teacher");
+  }
+});
+
+app.post("/api/teachers/:teacherId/sessions/:sessionId", async (req, res) => {
+  const { teacherId, sessionId } = req.params;
+  const { updatedData, columnData } = req.body;
+  console.log(updatedData, columnData);
+  try {
+    const numSessions = parseInt(updatedData[columnData.field], 10);
+    console.log("numSessions:", numSessions);
+
+    const teacherSession = await prisma.teacherSession.upsert({
+      where: {
+        id: `${teacherId}_${sessionId}`,
+      },
+      update: {
+        numSessions: numSessions,
+      },
+      create: {
+        teacher: {
+          connect: { id: teacherId },
+        },
+        session: {
+          connect: { id: sessionId },
+        },
+        numSessions: numSessions,
+      },
+    });
+
+    res.json(teacherSession);
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("Error updating teacher");
+  }
 });
 
 // OTHER
