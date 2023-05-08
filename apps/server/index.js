@@ -209,6 +209,32 @@ app.post("/api/teachers/:teacherId/sessions/:sessionId", async (req, res) => {
   }
 });
 
+// app.get("/api/teachers/:teacherId/sessions/:sessionId", async (req, res) => {
+//   const { teacherId, sessionId } = req.params;
+//   try {
+//     const teacherSession = await prisma.teacherSession.findUnique({
+//       where: {
+//         id: `${teacherId}_${sessionId}`,
+//       },
+//     });
+
+//     res.json(teacherSession);
+//   } catch (error) {
+//     console.error(error);
+//     res.status(500).send("Error retrieving teacher session");
+//   }
+// });
+
+app.get("/api/teachers/sessions", async (req, res) => {
+  try {
+    const teacherSessions = await prisma.teacherSession.findMany();
+    res.json(teacherSessions);
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("Error retrieving teacher sessions");
+  }
+});
+
 // OTHER
 app.get("/", (req, res) => {
   res.send("hello world");

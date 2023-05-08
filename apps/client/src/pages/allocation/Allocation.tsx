@@ -3,10 +3,18 @@ import { useState, useEffect } from "react";
 import "ag-grid-community/styles/ag-grid.css";
 import "ag-grid-community/styles/ag-theme-alpine.css";
 
+interface TeacherSessions {
+  teacherId: string;
+  sessionId: string;
+}
+
 import axios from "axios";
 
 const Allocation = () => {
   const [rowData, setRowData] = useState();
+  const [teacherSessionId, setTeacherSessionId] = useState<TeacherSessions[]>(
+    []
+  );
 
   const [columnDefs, setColumnDefs] = useState([
     { field: "firstName", width: 150 },
@@ -62,41 +70,23 @@ const Allocation = () => {
     })();
   }, []);
 
-  // make a get request to teacher sessions
-  // create a get route in index.js for teacher sessions
+  // make a request to get teacherSession table data and populate it in the column for the appropriate session
 
-  // THIS WORKS - UPDATES THE techers data with the additional time for the associated teacher.
-  // function onCellValueChanged(event) {
-  //   const updatedData = event.data;
-  //   const sessionId = event.colDef.sessionId;
-  //   const teacherId = event.data.id;
-  //   const colDefField = event.colDef.field;
-  //   const numSessions = updatedData[colDefField];
-  //   console.log(sessionId, teacherId, colDefField, numSessions);
+  useEffect(() => {
+    (async () => {
+      try {
+        const response = await axios.get(
+          "http://localhost:8000/api/teachers/sessions"
+        );
+        const teacherSessions = response.data;
+        console.log(teacherSessions);
+      } catch (error) {
+        console.log(error);
+      }
+    })();
+  }, []);
 
-  //   console.log(event);
-  //   console.log("Data after change is", updatedData);
-
-  //   axios
-  //     .put(`http://localhost:8000/api/teachers/${updatedData.id}`, updatedData)
-  //     .then((response) => {
-  //       console.log("Updated data sent to server:", response.data);
-  //     })
-  //     .catch((error) => {
-  //       console.error("Error sending updated data to server:", error);
-  //     });
-  //   axios
-  //     .put(
-  //       `http://localhost:8000/api/teachers/${updatedData.id}/sessions/${sessionId}`,
-  //       numSessions
-  //     )
-  //     .then((response) => {
-  //       console.log("num sessions sent to teachersession table", response.data);
-  //     })
-  //     .catch((error) => {
-  //       console.log("error sending numsessions to server", error);
-  //     });
-  // }
+  // THIS WORKS - UPDATES THE techers data with the additional time for the associated teacher and teacherSession
 
   function onCellValueChanged(event) {
     const updatedData = event.data;
@@ -107,6 +97,11 @@ const Allocation = () => {
     const numSessions = updatedData[colDefField];
     console.log(sessionId, teacherId, colDefField, numSessions);
     console.log(event);
+
+    setTeacherSessionId((prevState) => [
+      ...prevState,
+      { teacherId, sessionId },
+    ]);
 
     axios
       .put(`http://localhost:8000/api/teachers/${updatedData.id}`, updatedData)
