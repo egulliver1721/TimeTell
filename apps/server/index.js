@@ -186,7 +186,10 @@ app.post("/api/teachers/:teacherId/sessions/:sessionId", async (req, res) => {
 
     const teacherSession = await prisma.teacherSession.upsert({
       where: {
-        id: `${teacherId}_${sessionId}`,
+        teacherId_sessionId: {
+          teacherId: teacherId,
+          sessionId: sessionId,
+        },
       },
       update: {
         numSessions: numSessions,

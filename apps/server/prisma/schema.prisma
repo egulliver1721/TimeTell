@@ -61,11 +61,12 @@ model Teacher {
 }
 
 model TeacherSession {
-  id          String  @id @default(uuid())
   teacher     Teacher @relation(fields: [teacherId], references: [id])
   session     Session @relation(fields: [sessionId], references: [id])
   numSessions Int     @default(0)
 
-  teacherId String
-  sessionId String
+  teacherId   String
+  sessionId   String
+
+  @@id([teacherId, sessionId])
 }

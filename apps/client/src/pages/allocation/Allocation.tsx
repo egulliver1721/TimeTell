@@ -3,18 +3,30 @@ import { useState, useEffect } from "react";
 import "ag-grid-community/styles/ag-grid.css";
 import "ag-grid-community/styles/ag-theme-alpine.css";
 
-interface TeacherSessions {
-  teacherId: string;
-  sessionId: string;
+import axios from "axios";
+
+interface SessionColumns {
+  id: String;
+  sessionType: String;
+  sessionLength: String;
 }
 
-import axios from "axios";
+interface Fields {
+  field: String;
+  width: Number;
+  editable: boolean;
+  sessionId: String;
+  length: String;
+  valueGetter: Function;
+}
 
 const Allocation = () => {
   const [rowData, setRowData] = useState();
-  const [teacherSessionId, setTeacherSessionId] = useState<TeacherSessions[]>(
-    []
-  );
+  const [sessionColumns, setSessionColumns] = useState<SessionColumns[]>([]);
+  const [fields, setFields] = useState<Fields[]>([]);
+
+  console.log(sessionColumns);
+  console.log(fields);
 
   const [columnDefs, setColumnDefs] = useState([
     { field: "firstName", width: 150 },
@@ -52,41 +64,79 @@ const Allocation = () => {
     })();
   }, []);
 
+  // This fetches session and updates colDefs - WORKS
   useEffect(() => {
     (async () => {
       try {
         const response = await axios.get("http://localhost:8000/api/sessions");
         const sessions = response.data;
+        const teacherSessionResponse = await axios.get(
+          "http://localhost:8000/api/teachers/sessions"
+        );
+
+        setSessionColumns(sessions);
+
+        const allocatedTeacherSessions = teacherSessionResponse.data;
         const newFields = sessions.map((session) => ({
           field: session.sessionType,
           width: 150,
           editable: true,
           sessionId: session.id,
+          length: parseInt(session.sessionLength),
+          valueGetter: (params) => {
+            const teacherId = params.data.id;
+            const sessionId = params.colDef.sessionId;
+            const matchingSessions = allocatedTeacherSessions.find(
+              (session) =>
+                session.teacherId === teacherId &&
+                session.sessionId === sessionId
+            );
+            return matchingSessions ? matchingSessions.numSessions : null;
+          },
         }));
-        setColumnDefs([...columnDefs, ...newFields]);
+
+        // const sumValueGetter = (params) => {
+        //   let sum = 0;
+        //   for (let i = 0; i < newFields.length; i++) {
+        //     const value = params.getValue(newFields[i].field);
+        //     if (value) {
+        //       sum += parseInt(value);
+        //     }
+        //   }
+        //   return sum;
+        // };
+
+        const sumValueGetter = (params) => {
+          let sum = 0;
+          for (let i = 0; i < newFields.length; i++) {
+            const sessionType = newFields[i].field;
+            const value = params.getValue(sessionType);
+            if (value) {
+              const session = sessions.find(
+                (s) => s.sessionType === sessionType
+              );
+              const sessionLength = parseInt(session.sessionLength);
+              sum += value * sessionLength;
+            }
+          }
+          return sum;
+        };
+
+        const sumColumn = {
+          field: "sum",
+          valueGetter: sumValueGetter,
+        };
+
+        setFields([...newFields, sumColumn]);
+
+        setColumnDefs([...columnDefs, ...newFields, sumColumn]);
       } catch (error) {
         console.log(error);
       }
     })();
   }, []);
 
-  // make a request to get teacherSession table data and populate it in the column for the appropriate session
-
-  useEffect(() => {
-    (async () => {
-      try {
-        const response = await axios.get(
-          "http://localhost:8000/api/teachers/sessions"
-        );
-        const teacherSessions = response.data;
-        console.log(teacherSessions);
-      } catch (error) {
-        console.log(error);
-      }
-    })();
-  }, []);
-
-  // THIS WORKS - UPDATES THE techers data with the additional time for the associated teacher and teacherSession
+  console.log(rowData);
 
   function onCellValueChanged(event) {
     const updatedData = event.data;
@@ -95,13 +145,6 @@ const Allocation = () => {
     const teacherId = event.data.id;
     const colDefField = event.colDef.field;
     const numSessions = updatedData[colDefField];
-    console.log(sessionId, teacherId, colDefField, numSessions);
-    console.log(event);
-
-    setTeacherSessionId((prevState) => [
-      ...prevState,
-      { teacherId, sessionId },
-    ]);
 
     axios
       .put(`http://localhost:8000/api/teachers/${updatedData.id}`, updatedData)
@@ -128,14 +171,26 @@ const Allocation = () => {
       });
   }
 
+  var gridOptions = {
+    rowData: rowData,
+    columnDefs: columnDefs,
+    onCellValueChanged: onCellValueChanged,
+    defaultColDef: {
+      sortable: true,
+      filter: "agTextColumnFilter",
+      resizable: true,
+    },
+  };
+
   return (
     <div>
       <div className="table-container">
         <div className="ag-theme-alpine" style={{ height: 400, width: 1150 }}>
           <AgGridReact
-            rowData={rowData}
-            columnDefs={columnDefs}
-            onCellValueChanged={onCellValueChanged}
+            rowData={gridOptions.rowData}
+            columnDefs={gridOptions.columnDefs}
+            onCellValueChanged={gridOptions.onCellValueChanged}
+            defaultColDef={gridOptions.defaultColDef}
           ></AgGridReact>
         </div>
       </div>
