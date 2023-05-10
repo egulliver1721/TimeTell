@@ -12,10 +12,11 @@ datasource db {
 }
 
 model Role {
-  id       String    @id @default(uuid())
+  id       String     @id @default(uuid())
   roleType String
   roleCode String
   teachers Teacher[]
+  provider Provider[]
 }
 
 model Year {
@@ -25,9 +26,10 @@ model Year {
 }
 
 model Class {
-  id        String    @id @default(uuid())
+  id        String     @id @default(uuid())
   className String
   teachers  Teacher[]
+  provider  Provider[]
 }
 
 model Session {
@@ -39,33 +41,28 @@ model Session {
 }
 
 
-moderl Provider {
-  id      String           @id @default(uuid())
-  teacher Teacher
-  role    Role
-  class   Class
-}
-
 model Teacher {
-  id               String           @id @default(uuid())
-  firstName        String
-  lastName         String
-  FTE              String
-  role             Role?            @relation(fields: [roleId], references: [id])
-  year             Year?            @relation(fields: [yearId], references: [id])
-  class            Class?           @relation(fields: [classroomId], references: [id])
-  roleId           String?
-  yearId           String?
-  classroomId      String?
-  monday           Boolean?
-  tuesday          Boolean?
-  wednesday        Boolean?
-  thursday         Boolean?
-  friday           Boolean?
-  mandatedTime     String?
-  additionalTime   String?
-  session          Session[]        @relation("TeacherSession")
-  TeacherSession   TeacherSession[]
+  id             String           @id @default(uuid())
+  firstName      String
+  lastName       String
+  FTE            String
+  role           Role?            @relation(fields: [roleId], references: [id])
+  year           Year?            @relation(fields: [yearId], references: [id])
+  class          Class?           @relation(fields: [classroomId], references: [id])
+  roleId         String?
+  yearId         String?
+  classroomId    String?
+  monday         Boolean?
+  tuesday        Boolean?
+  wednesday      Boolean?
+  thursday       Boolean?
+  friday         Boolean?
+  mandatedTime   String?
+  additionalTime String?
+  session        Session[]        @relation("TeacherSession")
+  TeacherSession TeacherSession[]
+  Provider       Provider?        @relation(fields: [providerId], references: [id])
+  providerId     String?
 }
 
 model TeacherSession {
@@ -73,10 +70,8 @@ model TeacherSession {
   session     Session @relation(fields: [sessionId], references: [id])
   numSessions Int     @default(0)
 
-  teacherId   String
-  sessionId   String
+  teacherId String
+  sessionId String
 
   @@id([teacherId, sessionId])
 }
-
-
