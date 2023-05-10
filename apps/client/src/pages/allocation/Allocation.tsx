@@ -95,17 +95,6 @@ const Allocation = () => {
           },
         }));
 
-        // const sumValueGetter = (params) => {
-        //   let sum = 0;
-        //   for (let i = 0; i < newFields.length; i++) {
-        //     const value = params.getValue(newFields[i].field);
-        //     if (value) {
-        //       sum += parseInt(value);
-        //     }
-        //   }
-        //   return sum;
-        // };
-
         const sumValueGetter = (params) => {
           let sum = 0;
           for (let i = 0; i < newFields.length; i++) {
@@ -119,12 +108,24 @@ const Allocation = () => {
               sum += value * sessionLength;
             }
           }
+
           return sum;
         };
 
+        // doesnt work to set cellStyle
         const sumColumn = {
           field: "sum",
-          valueGetter: sumValueGetter,
+          valueGetter: (params) => sumValueGetter(params),
+          cellStyle: (params) => {
+            const rowData = params.data;
+            const sum = rowData.sum; // this isnt in the params object
+            const totaltime = rowData.totalTime; // add together params.data.mandtime + addtime
+            // console.log(params);
+            if (sum > totaltime) {
+              return { backgroundColor: "red" };
+            }
+            return null;
+          },
         };
 
         setFields([...newFields, sumColumn]);
@@ -135,8 +136,6 @@ const Allocation = () => {
       }
     })();
   }, []);
-
-  console.log(rowData);
 
   function onCellValueChanged(event) {
     const updatedData = event.data;

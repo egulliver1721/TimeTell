@@ -110,7 +110,7 @@ nav {
 /* teach data table */
 
 .table-container {
-  height: 45vw;
+  height: 30vw;
   overflow-y: auto;
 }
 
@@ -125,4 +125,10 @@ nav {
 
 .teacher-data-table tbody tr {
   background-color: #f2f2f2;
+}
+
+/* ALLOCATION */
+
+.allocation-container {
+  margin-top: 40px;
 }

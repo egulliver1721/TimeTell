@@ -12,11 +12,6 @@ const Allocation = () => {
     { field: "firstName", width: 150 },
     { field: "lastName", width: 150 },
     {
-      field: "role",
-      valueGetter: (params) => params.data.role?.roleCode,
-      width: 100,
-    },
-    {
       field: "year",
       valueGetter: (params) => params.data.year?.yearGroup,
       width: 100,
@@ -25,29 +20,6 @@ const Allocation = () => {
       field: "Class",
       valueGetter: (params) => params.data.class?.className,
       width: 100,
-    },
-
-    {
-      field: "FTE",
-      width: 100,
-    },
-    {
-      field: "mandatedTime",
-      width: 180,
-      editable: true,
-    },
-    {
-      field: "additionalTime",
-      width: 180,
-      editable: true,
-    },
-    {
-      field: "totalTime",
-      valueGetter: (params) => {
-        const mandatedTime = Number(params.data.mandatedTime) || 0;
-        const additionalTime = Number(params.data.additionalTime) || 0;
-        return mandatedTime + additionalTime;
-      },
     },
   ]);
 

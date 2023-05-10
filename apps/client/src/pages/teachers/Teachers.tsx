@@ -163,6 +163,10 @@ const Teachers = () => {
     }
   };
 
+  // post a subset of teacherData to the providers table schema
+  // teachers with the role of SP or provider need to get send to the providers table
+  //  teacherId, Role, Class
+
   // get teacher data to display
 
   useEffect(() => {

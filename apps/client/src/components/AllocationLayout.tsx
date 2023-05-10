@@ -41,8 +41,10 @@ const AllocationLayout = () => {
       </nav>
 
       <div className="setup-content">
-        <AllocationCommonData />
-        <Outlet />
+        <div className="allocation-container">
+          <Outlet />
+          <AllocationCommonData />
+        </div>
       </div>
     </div>
   );

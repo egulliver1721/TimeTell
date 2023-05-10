@@ -38,6 +38,14 @@ model Session {
   TeacherSession TeacherSession[]
 }
 
+
+moderl Provider {
+  id      String           @id @default(uuid())
+  teacher Teacher
+  role    Role
+  class   Class
+}
+
 model Teacher {
   id               String           @id @default(uuid())
   firstName        String
@@ -70,3 +78,5 @@ model TeacherSession {
 
   @@id([teacherId, sessionId])
 }
+
+
