@@ -64,14 +64,12 @@ const Allocation = () => {
     })();
   }, []);
 
-  // post a subset of teacherData to the providers table schema
-  // filter through formData and extra only the ones that are tagged as a Provider.
-  // teachers with the role of SP or provider need to get send to the providers table
-  //  teacherId, Role, Class
-
-  // get teacher data to display
-
-  // filter teacher state data.
+  // need to create a new table in schema with join table for providers?
+  // teachers are allocated to a provider to get their "allocated time"
+  // providers can do 35min or 55min sessions.
+  //  Now set is saved for Providers, I think I need to post that to DB for provider table?
+  // Create a join table. With teacherId, sessionId, numAllocatedSessions
+  // How do I manage the different types of sessions?
 
   function onCellValueChanged(event) {
     const updatedData = event.data;
